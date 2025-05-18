@@ -21,7 +21,7 @@ class TestLeafNode(unittest.TestCase):
         node = LeafNode("div", "content")
         self.assertIsNone(node.children)
 
-   # def test_void_element_handling(self):
+    #def test_void_element_handling(self):
         # For elements like <img> where content isn't allowed
         #node = LeafNode("img", "", {"src": "image.jpg", "alt": "image"})
         #self.assertEqual(node.to_html(), '<img src="image.jpg" alt="image">')
