@@ -1,1 +1,1 @@
-python3 src/main.py "/bucurnata/"
+python3 src/main.py "/static_web/"
