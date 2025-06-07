@@ -69,14 +69,11 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
 def main():
     basepath = sys.argv[1] if len(sys.argv) > 1 else "/"
     clear_public_directory()
-    copy_directory_recursive("static", "public")
+    copy_directory_recursive("static", "docs")
     generate_pages_recursive(
         dir_path_content="content",
         template_path="template.html",
-        dest_dir_path="public",
+        dest_dir_path="docs",
         basepath=basepath
         )
-    
-
-
 main()
