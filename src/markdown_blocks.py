@@ -14,13 +14,22 @@ class BlockType(Enum):
     ULIST = "unordered_list"
     OLIST = "ordered_list"
 
+
 def markdown_to_blocks(markdown):
     blocks = []
     for block in markdown.split("\n\n"):
         if block.strip() != "":
             blocks.append(block.strip())
     return blocks
-#return [block.strip() for block in markdown.split("\n\n")]    
+#return [block.strip() for block in markdown.split("\n\n")]  
+
+def extract_title(markdown: str) -> str:
+    for line in markdown.splitlines():
+        if line.startswith("# "):
+            return line[2:].strip()
+    raise Exception("No H1 title found in markdown")
+
+
 
 def block_to_block_type(block):
     lines = block.split("\n")
@@ -155,6 +164,6 @@ def quote_to_html(block):
         new_lines.append(line.lstrip(">").strip())
     text = " ".join(new_lines)
     children = text_to_children(text)
-    return ParentNode("blockuote", children)
+    return ParentNode("blockquote", children)
 
 

@@ -2,7 +2,8 @@ import unittest
 from markdown_blocks import (
     markdown_to_blocks,
     block_to_block_type,
-    markdown_to_html_node
+    markdown_to_html_node,
+    extract_title
 )
 from markdown_blocks import BlockType
 
@@ -126,6 +127,33 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
         result = markdown_to_html_node(markdown)
         self.assertEqual(result.children[0].tag, "blockuote")
         self.assertEqual(result.children[0].children[0].value, "Line one Line two")
+
+class TestExtractTitle(unittest.TestCase):
+    def test_basic_title(self):
+        md = "# Hello World"
+        self.assertEqual(extract_title(md), "Hello World")
+
+    def test_title_with_extra_spaces(self):
+        md = "#    Hello with spaces    "
+        self.assertEqual(extract_title(md), "Hello with spaces")
+
+    def test_title_among_other_headers(self):
+        md = "## Subtitle\n# Actual Title\n### Another"
+        self.assertEqual(extract_title(md), "Actual Title")
+
+    def test_no_title(self):
+        md = "## Not a title\n### Still not a title"
+        with self.assertRaises(Exception) as context:
+            extract_title(md)
+        self.assertEqual(str(context.exception), "No H1 title found in markdown")
+
+    def test_title_not_at_start(self):
+        md = "\n\nSome intro\n# Final Title\nMore text"
+        self.assertEqual(extract_title(md), "Final Title")
+
+    def test_multiple_titles(self):
+        md = "# First Title\n# Second Title"
+        self.assertEqual(extract_title(md), "First Title")
 
 if __name__ == "__main__":
     unittest.main()
